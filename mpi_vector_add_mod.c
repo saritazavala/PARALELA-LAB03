@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <mpi.h>
 
+
 void Check_for_error(int local_ok, char fname[], char message[], 
       MPI_Comm comm);
 void Read_n(int* n_p, int* local_n_p, int my_rank, int comm_sz, 
@@ -46,6 +47,7 @@ void Parallel_vector_sum(double local_x[], double local_y[],
 
 /*-------------------------------------------------------------------*/
 int main(void) {
+   double starttime, endtime, total_time;
    int n, local_n;
    int comm_sz, my_rank;
    double *local_x, *local_y, *local_z;
@@ -67,8 +69,12 @@ int main(void) {
    Random_vector_creator(local_y, local_n, n, "y", my_rank, comm);
    Print_vector(local_y, local_n, n, "y is", my_rank, comm);
    
+   starttime = MPI_Wtime();
    Parallel_vector_sum(local_x, local_y, local_z, local_n);
+   endtime   = MPI_Wtime();
+   total_time += endtime-starttime;
    Print_vector(local_z, local_n, n, "The sum is", my_rank, comm);
+   printf("Parallel vector sum took %f seconds\n",total_time);
 
    free(local_x);
    free(local_y);

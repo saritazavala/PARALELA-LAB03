@@ -20,6 +20,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void Read_n(int* n_p);
 void Allocate_vectors(double** x_pp, double** y_pp, double** z_pp, int n);
@@ -43,9 +44,15 @@ int main(void) {
    Print_vector(x, n, "x ->");
    Print_vector(y, n, "y ->");
    
+   double time_spent = 0.0;
+   clock_t begin = clock();
    Vector_sum(x, y, z, n);
+   clock_t end = clock();
 
    Print_vector(z, n, "The sum is");
+
+   time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   printf("Vector sum took %f seconds\n", time_spent);
 
    free(x);
    free(y);
