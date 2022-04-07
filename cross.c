@@ -1,4 +1,4 @@
-// Claas Heuer, August 2013
+
 
 
 #include <mpi.h>
